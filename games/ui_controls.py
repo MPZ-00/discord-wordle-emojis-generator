@@ -11,7 +11,7 @@ class UIControlsGenerator(GameGenerator):
     # Path to icon assets relative to project root
     ASSETS_DIR = Path(__file__).parent.parent / "assets" / "icons"
     
-    def get_tiles(self) -> List[Dict[str, str | int]]:
+    def get_tiles(self) -> List[Dict[str, str | int | bool]]:
         """Generate tiles for UI controls and utilities.
         
            Includes directional arrows and interactive emojis.
@@ -26,30 +26,34 @@ class UIControlsGenerator(GameGenerator):
             {
                 "label": "arrow_up",
                 "type": "icon",
-                "color": "#FFFFFF",
+                "color": "transparent",
                 "icon": str(self.ASSETS_DIR / "arrow_right.svg"),
                 "rotation": 90,
+                "border": False,
             },
             {
                 "label": "arrow_right",
                 "type": "icon",
-                "color": "#FFFFFF",
+                "color": "transparent",
                 "icon": str(self.ASSETS_DIR / "arrow_right.svg"),
                 "rotation": 0,
+                "border": False,
             },
             {
                 "label": "arrow_down",
                 "type": "icon",
-                "color": "#FFFFFF",
+                "color": "transparent",
                 "icon": str(self.ASSETS_DIR / "arrow_right.svg"),
                 "rotation": 270,
+                "border": False,
             },
             {
                 "label": "arrow_left",
                 "type": "icon",
-                "color": "#FFFFFF",
+                "color": "transparent",
                 "icon": str(self.ASSETS_DIR / "arrow_right.svg"),
                 "rotation": 180,
+                "border": False,
             },
         ])
 
@@ -58,21 +62,24 @@ class UIControlsGenerator(GameGenerator):
             {
                 "label": "video_game",
                 "type": "solid",
-                "color": "#FFFFFF",
+                "color": "transparent",
                 "text": "🎮",
+                "border": False,
             },
             {
                 "label": "tada",
                 "type": "icon",
-                "color": "#FFFFFF",
+                "color": "transparent",
                 "icon": str(self.ASSETS_DIR / "tada.svg"),
                 "rotation": 0,
+                "border": False,
             },
             {
                 "label": "hourglass",
                 "type": "solid",
-                "color": "#FFFFFF",
+                "color": "transparent",
                 "text": "⏳",
+                "border": False,
             },
         ])
         
@@ -109,7 +116,7 @@ class UIControlsGenerator(GameGenerator):
                         tile_size=self.tile_size,
                         rounded=self.rounded,
                         radius=self.radius,
-                        border=self.border,
+                        border=tile.get("border", self.border),
                         rotation=tile.get("rotation", 0),
                     )
                 except (ImportError, OSError):
@@ -123,7 +130,7 @@ class UIControlsGenerator(GameGenerator):
                         rounded=self.rounded,
                         radius=self.radius,
                         font_path=self.font_path,
-                        border=self.border,
+                        border=tile.get("border", self.border),
                         shadow=self.shadow,
                     )
             else:  # solid tile with text
@@ -136,7 +143,7 @@ class UIControlsGenerator(GameGenerator):
                     rounded=self.rounded,
                     radius=self.radius,
                     font_path=self.font_path,
-                    border=self.border,
+                    border=tile.get("border", self.border),
                     shadow=self.shadow,
                 )
         

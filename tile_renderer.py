@@ -6,6 +6,8 @@ from pathlib import Path
 
 def hex_to_rgba(value: str) -> tuple:
     """Convert hex color to RGBA tuple."""
+    if value.lower() in {"transparent", "none"}:
+        return (0, 0, 0, 0)
     value = value.lstrip("#")
     return tuple(int(value[i:i+2], 16) for i in (0, 2, 4)) + (255,)
 
