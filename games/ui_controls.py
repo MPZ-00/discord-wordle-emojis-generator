@@ -28,61 +28,61 @@ class UIControlsGenerator(GameGenerator):
             "color": "#31363E",  # Dark gray, matching 2048 empty spaces
             "text": "",
         })
-       
-           # Directional arrows (rotations of arrow_right)
-           tiles.extend([
-               {
-                   "label": "arrow_up",
-                   "type": "icon",
-                   "color": "#FFFFFF",
-                   "icon": str(self.ASSETS_DIR / "arrow_right.svg"),
-                   "rotation": 90,
-               },
-               {
-                   "label": "arrow_right",
-                   "type": "icon",
-                   "color": "#FFFFFF",
-                   "icon": str(self.ASSETS_DIR / "arrow_right.svg"),
-                   "rotation": 0,
-               },
-               {
-                   "label": "arrow_down",
-                   "type": "icon",
-                   "color": "#FFFFFF",
-                   "icon": str(self.ASSETS_DIR / "arrow_right.svg"),
-                   "rotation": 270,
-               },
-               {
-                   "label": "arrow_left",
-                   "type": "icon",
-                   "color": "#FFFFFF",
-                   "icon": str(self.ASSETS_DIR / "arrow_right.svg"),
-                   "rotation": 180,
-               },
-           ])
-       
-           # Interactive emojis
-           tiles.extend([
-               {
-                   "label": "video_game",
-                   "type": "solid",
-                   "color": "#FFFFFF",
-                   "text": "🎮",
-               },
-               {
-                   "label": "tada",
-                   "type": "icon",
-                   "color": "#FFFFFF",
-                   "icon": str(self.ASSETS_DIR / "tada.svg"),
-                   "rotation": 0,
-               },
-               {
-                   "label": "hourglass",
-                   "type": "solid",
-                   "color": "#FFFFFF",
-                   "text": "⏳",
-               },
-           ])
+        
+        # Directional arrows (rotations of arrow_right)
+        tiles.extend([
+            {
+                "label": "arrow_up",
+                "type": "icon",
+                "color": "#FFFFFF",
+                "icon": str(self.ASSETS_DIR / "arrow_right.svg"),
+                "rotation": 90,
+            },
+            {
+                "label": "arrow_right",
+                "type": "icon",
+                "color": "#FFFFFF",
+                "icon": str(self.ASSETS_DIR / "arrow_right.svg"),
+                "rotation": 0,
+            },
+            {
+                "label": "arrow_down",
+                "type": "icon",
+                "color": "#FFFFFF",
+                "icon": str(self.ASSETS_DIR / "arrow_right.svg"),
+                "rotation": 270,
+            },
+            {
+                "label": "arrow_left",
+                "type": "icon",
+                "color": "#FFFFFF",
+                "icon": str(self.ASSETS_DIR / "arrow_right.svg"),
+                "rotation": 180,
+            },
+        ])
+
+        # Interactive emojis
+        tiles.extend([
+            {
+                "label": "video_game",
+                "type": "solid",
+                "color": "#FFFFFF",
+                "text": "🎮",
+            },
+            {
+                "label": "tada",
+                "type": "icon",
+                "color": "#FFFFFF",
+                "icon": str(self.ASSETS_DIR / "tada.svg"),
+                "rotation": 0,
+            },
+            {
+                "label": "hourglass",
+                "type": "solid",
+                "color": "#FFFFFF",
+                "text": "⏳",
+            },
+        ])
         
         return tiles
 
