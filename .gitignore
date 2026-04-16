@@ -3,3 +3,7 @@ generated*/*
 *.tmp
 *.bak
 *.env
+
+__pycache__/
+*.pyc
+output/

@@ -1,15 +1,18 @@
-# Discord Wordle Emojis Generator
+# Emoji Generator for Discord Games
 
-Generate Wordle-style PNG emoji tiles for Discord.
+Generate PNG emoji tiles for multiple games to use in Discord. Supports Wordle, 2048, and extensible for future games.
 
 ## What It Generates
 
-- `gray_A` to `gray_Z`
-- `white_A` to `white_Z`
-- `green_A` to `green_Z`
-- `yellow_A` to `yellow_Z`
-- `gray_square`
-- `white_square`
+### Wordle
+- `gray_A` to `gray_Z`, `white_A` to `white_Z`, `green_A` to `green_Z`, `yellow_A` to `yellow_Z`
+- `gray_square`, `white_square`
+- **Total: 106 tiles** (26 letters × 4 states + 2 squares)
+
+### 2048
+- `tile_2.png` to `tile_2048.png` (powers of 2)
+- Colors span dark mode palette: warm (low powers) → cool/neutral (high powers)
+- **Total: 11 tiles**
 
 ## Features
 
@@ -28,35 +31,60 @@ Generate Wordle-style PNG emoji tiles for Discord.
 
 ```bash
 python -m pip install -r requirements.txt
-python generate_discord_wordle_emojis.py --rounded --border --shadow
+python emoji_generator.py
 ```
 
-This generates files into `wordle_emojis` by default.
+This generates all games (Wordle + 2048) into `output/` directory, organized as:
+```
+output/
+├── wordle/
+│   ├── gray_A.png
+│   ├── green_Z.png
+│   └── ... (106 total)
+└── 2048/
+    ├── tile_2.png
+    ├── tile_4.png
+    └── ... (11 total)
+```
 
 ## Usage Examples
 
-Default rounded output with border and shadow:
-
+**Generate all games with default settings:**
 ```bash
-python generate_discord_wordle_emojis.py --rounded --border --shadow
+python emoji_generator.py
 ```
 
-Custom size:
-
+**Generate all games with rendering options (rounded, border, shadow):**
 ```bash
-python generate_discord_wordle_emojis.py --rounded --border --shadow --size 256
+python emoji_generator.py --rounded --border --shadow
 ```
 
-Custom font:
-
+**Generate specific games:**
 ```bash
-python generate_discord_wordle_emojis.py --rounded --border --shadow --font "/path/to/font.ttf"
+python emoji_generator.py wordle 2048
+python emoji_generator.py 2048       # Only 2048 tiles
+python emoji_generator.py wordle     # Only Wordle tiles
 ```
 
-Custom output folder:
-
+**Custom tile size (default 128 pixels):**
 ```bash
-python generate_discord_wordle_emojis.py --out generated_custom
+python emoji_generator.py --size 256
+python emoji_generator.py 2048 --size 96
+```
+
+**Custom font:**
+```bash
+python emoji_generator.py --font "/path/to/font.ttf"
+```
+
+**Custom output directory:**
+```bash
+python emoji_generator.py --out my_emojis
+```
+
+**Combine options:**
+```bash
+python emoji_generator.py 2048 --size 256 --rounded --border --shadow --out discord_assets
 ```
 
 ## Showcase Files In This Repo
@@ -71,3 +99,54 @@ This repository intentionally keeps only a small showcase set in `generated_roun
 - `white_square.png`
 
 Generate the full set locally using the script.
+
+## Architecture
+
+The system is modular and extensible:
+
+```
+emoji_generator.py          # Main CLI entry point
+tile_renderer.py            # Shared tile rendering utilities
+game.py                     # Abstract GameGenerator base class
+games/
+├── __init__.py
+├── registry.py              # Game discovery and registration
+├── wordle.py                # WordleGenerator implementation
+└── game_2048.py             # Game2048Generator implementation
+```
+
+### Adding a New Game
+
+1. Create a new file in `games/` (e.g., `games/my_game.py`)
+2. Implement `GameGenerator` abstract class:
+   ```python
+   from game import GameGenerator
+   from typing import List, Dict
+   
+   class MyGameGenerator(GameGenerator):
+       def get_tiles(self) -> List[Dict[str, str]]:
+           return [
+               {"label": "tile_name", "color": "#HEXCOLOR", "text": "X"},
+               # ...
+           ]
+   ```
+3. Register in `games/registry.py`:
+   ```python
+   from .my_game import MyGameGenerator
+   GameRegistry.register("mygame", MyGameGenerator)
+   ```
+4. Use immediately:
+   ```bash
+   python emoji_generator.py mygame --size 128 --rounded
+   ```
+
+### 2048 Color Scheme
+
+Powers of 2 are mapped to a color gradient optimized for Discord dark mode:
+- `2` → Bright yellow (#FDCB58, from Wordle palette)
+- `4-64` → Warm tones (yellows through oranges)
+- `128-256` → Brown tones
+- `512-1024` → Gray-brown transition
+- `2048` → Dark gray (#31363E, from Wordle palette)
+
+This gradient ensures visual progression while maintaining contrast on dark backgrounds.
