@@ -14,6 +14,11 @@ def get_font(font_path: str | None, font_size: int) -> ImageFont.FreeTypeFont:
     """Load font, with fallback to system defaults."""
     candidates = [
         font_path,
+        "C:\\Windows\\Fonts\\JetBrainsMonoNerdFont-Regular.ttf",
+        "C:\\Windows\\Fonts\\JetBrainsMonoNerdFontMono-Regular.ttf",
+        "C:\\Windows\\Fonts\\JetBrainsMonoNLNerdFont-Regular.ttf",
+        "/usr/share/fonts/truetype/nerd-fonts/JetBrainsMonoNerdFont-Regular.ttf",
+        "/usr/share/fonts/truetype/JetBrainsMonoNerdFont-Regular.ttf",
         "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
         "/usr/share/fonts/truetype/liberation2/LiberationSans-Bold.ttf",
         "C:\\Windows\\Fonts\\arial.ttf",

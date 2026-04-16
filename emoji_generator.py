@@ -55,8 +55,8 @@ def main():
     )
     parser.add_argument(
         "--font",
-        default=None,
-        help="Path to custom TTF font file"
+        default="C:\\Windows\\Fonts\\JetBrainsMonoNerdFont-Regular.ttf",
+        help="Path to custom TTF font file (default: JetBrainsMono Nerd Font)"
     )
     parser.add_argument(
         "--border",
