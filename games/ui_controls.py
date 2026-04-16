@@ -61,9 +61,10 @@ class UIControlsGenerator(GameGenerator):
         tiles.extend([
             {
                 "label": "video_game",
-                "type": "solid",
+                "type": "icon",
                 "color": "transparent",
-                "text": "🎮",
+                "icon": str(self.ASSETS_DIR / "video_game.svg"),
+				"rotation": 0,
                 "border": False,
             },
             {
@@ -76,9 +77,10 @@ class UIControlsGenerator(GameGenerator):
             },
             {
                 "label": "hourglass",
-                "type": "solid",
+                "type": "icon",
                 "color": "transparent",
-                "text": "⏳",
+                "icon": str(self.ASSETS_DIR / "hourglass.svg"),
+				"rotation": 0,
                 "border": False,
             },
         ])
