@@ -14,7 +14,7 @@ class UIControlsGenerator(GameGenerator):
     def get_tiles(self) -> List[Dict[str, str | int]]:
         """Generate tiles for UI controls and utilities.
         
-        Includes empty tile state.
+           Includes empty tile state and directional arrows.
         
         Returns:
             List of tile specifications for UI controls
@@ -28,6 +28,38 @@ class UIControlsGenerator(GameGenerator):
             "color": "#31363E",  # Dark gray, matching 2048 empty spaces
             "text": "",
         })
+       
+           # Directional arrows (rotations of arrow_right)
+           tiles.extend([
+               {
+                   "label": "arrow_up",
+                   "type": "icon",
+                   "color": "#FFFFFF",
+                   "icon": str(self.ASSETS_DIR / "arrow_right.svg"),
+                   "rotation": 90,
+               },
+               {
+                   "label": "arrow_right",
+                   "type": "icon",
+                   "color": "#FFFFFF",
+                   "icon": str(self.ASSETS_DIR / "arrow_right.svg"),
+                   "rotation": 0,
+               },
+               {
+                   "label": "arrow_down",
+                   "type": "icon",
+                   "color": "#FFFFFF",
+                   "icon": str(self.ASSETS_DIR / "arrow_right.svg"),
+                   "rotation": 270,
+               },
+               {
+                   "label": "arrow_left",
+                   "type": "icon",
+                   "color": "#FFFFFF",
+                   "icon": str(self.ASSETS_DIR / "arrow_right.svg"),
+                   "rotation": 180,
+               },
+           ])
         
         return tiles
 
