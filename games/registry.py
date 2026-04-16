@@ -46,6 +46,8 @@ def initialize_registry() -> None:
     """Register all available game generators."""
     from .wordle import WordleGenerator
     from .game_2048 import Game2048Generator
+    from .ui_controls import UIControlsGenerator
     
     GameRegistry.register("wordle", WordleGenerator)
     GameRegistry.register("2048", Game2048Generator)
+    GameRegistry.register("ui_controls", UIControlsGenerator)

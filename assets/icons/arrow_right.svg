@@ -1,0 +1,10 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- Template: Replace with Nucleo arrow-right icon. Viewbox: 0 0 1024 1024 -->
+  <defs>
+    <style>
+      .arrow-stroke { fill: none; stroke: #ffffff; stroke-width: 80; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+  </defs>
+  <!-- Placeholder arrow pointing right -->
+  <polyline class="arrow-stroke" points="300,200 750,512 300,824"/>
+</svg>

@@ -113,3 +113,88 @@ def create_tile(
         draw.text((x, y), text, font=font, fill=text_color)
 
     img.save(out_dir / f"{label}.png")
+
+
+def svg_to_png(svg_path: str | Path, size: int, rotation: int = 0) -> Image.Image:
+    """Convert SVG to PIL Image with optional rotation.
+    
+    Args:
+        svg_path: Path to SVG file
+        size: Output size in pixels
+        rotation: Rotation in degrees (0, 90, 180, 270)
+    
+    Returns:
+        PIL Image with RGBA mode
+    """
+    try:
+        import cairosvg
+        from io import BytesIO
+        
+        svg_path = Path(svg_path)
+        if not svg_path.exists():
+            raise FileNotFoundError(f"SVG file not found: {svg_path}")
+        
+        png_bytes = BytesIO()
+        cairosvg.svg2png(url=str(svg_path), write_to=png_bytes, output_width=size, output_height=size)
+        png_bytes.seek(0)
+        img = Image.open(png_bytes).convert("RGBA")
+        
+        if rotation > 0:
+            img = img.rotate(-rotation, expand=False, resample=Image.Resampling.BICUBIC)
+        
+        return img
+    except ImportError:
+        raise ImportError("cairosvg is required for SVG rendering. Install with: pip install cairosvg")
+
+
+def create_icon_tile(
+    label: str,
+    icon_path: str | Path,
+    fill_hex: str,
+    out_dir: Path,
+    tile_size: int,
+    rounded: bool,
+    radius: int,
+    border: bool,
+    rotation: int = 0,
+) -> None:
+    """Create and save a tile with an SVG icon centered.
+    
+    Args:
+        label: Tile name (used as filename)
+        icon_path: Path to SVG icon file
+        fill_hex: Hex color for background
+        out_dir: Output directory
+        tile_size: Tile size in pixels
+        rounded: Whether corners are rounded
+        radius: Corner radius
+        border: Whether to add border
+        rotation: Icon rotation in degrees (0, 90, 180, 270)
+    """
+    bg = hex_to_rgba(fill_hex)
+    
+    img = Image.new("RGBA", (tile_size, tile_size), (0, 0, 0, 0))
+    tile = Image.new("RGBA", (tile_size, tile_size), bg)
+    
+    if rounded:
+        mask = rounded_rect_mask(tile_size, radius)
+        img.alpha_composite(Image.composite(tile, Image.new("RGBA", (tile_size, tile_size), (0, 0, 0, 0)), mask))
+    else:
+        img.alpha_composite(tile)
+    
+    icon_size = int(tile_size * 0.65)
+    icon = svg_to_png(icon_path, icon_size, rotation=rotation)
+    
+    icon_x = (tile_size - icon_size) // 2
+    icon_y = (tile_size - icon_size) // 2
+    img.alpha_composite(icon, (icon_x, icon_y))
+    
+    draw = ImageDraw.Draw(img)
+    if border:
+        border_color = (255, 255, 255, 45)
+        if rounded:
+            draw.rounded_rectangle((1, 1, tile_size - 2, tile_size - 2), radius=radius, outline=border_color, width=max(1, tile_size // 48))
+        else:
+            draw.rectangle((1, 1, tile_size - 2, tile_size - 2), outline=border_color, width=max(1, tile_size // 48))
+    
+    img.save(out_dir / f"{label}.png")

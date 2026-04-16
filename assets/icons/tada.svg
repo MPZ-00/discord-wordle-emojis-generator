@@ -1,0 +1,14 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- Template: Replace with Nucleo party/tada icon. Viewbox: 0 0 1024 1024 -->
+  <defs>
+    <style>
+      .icon-fill { fill: #ffffff; }
+    </style>
+  </defs>
+  <!-- Placeholder party popper -->
+  <circle cx="512" cy="512" r="300" class="icon-fill" opacity="0.3"/>
+  <circle cx="300" cy="250" r="40" class="icon-fill"/>
+  <circle cx="724" cy="280" r="35" class="icon-fill"/>
+  <circle cx="200" cy="520" r="35" class="icon-fill"/>
+  <circle cx="820" cy="550" r="40" class="icon-fill"/>
+</svg>
