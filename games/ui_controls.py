@@ -14,20 +14,12 @@ class UIControlsGenerator(GameGenerator):
     def get_tiles(self) -> List[Dict[str, str | int]]:
         """Generate tiles for UI controls and utilities.
         
-           Includes empty tile state, directional arrows, and interactive emojis.
+           Includes directional arrows and interactive emojis.
         
         Returns:
             List of tile specifications for UI controls
         """
         tiles = []
-        
-        # Empty tile state (dark gray, no icon)
-        tiles.append({
-            "label": "tile_empty",
-            "type": "solid",
-            "color": "#31363E",  # Dark gray, matching 2048 empty spaces
-            "text": "",
-        })
         
         # Directional arrows (rotations of arrow_right)
         tiles.extend([
@@ -98,19 +90,42 @@ class UIControlsGenerator(GameGenerator):
         out_dir.mkdir(parents=True, exist_ok=True)
         
         tiles = self.get_tiles()
+        icon_fallback_text = {
+            "arrow_up": "↑",
+            "arrow_right": "→",
+            "arrow_down": "↓",
+            "arrow_left": "←",
+            "tada": "🎉",
+        }
+
         for tile in tiles:
             if tile["type"] == "icon":
-                create_icon_tile(
-                    label=tile["label"],
-                    icon_path=tile["icon"],
-                    fill_hex=tile["color"],
-                    out_dir=out_dir,
-                    tile_size=self.tile_size,
-                    rounded=self.rounded,
-                    radius=self.radius,
-                    border=self.border,
-                    rotation=tile.get("rotation", 0),
-                )
+                try:
+                    create_icon_tile(
+                        label=tile["label"],
+                        icon_path=tile["icon"],
+                        fill_hex=tile["color"],
+                        out_dir=out_dir,
+                        tile_size=self.tile_size,
+                        rounded=self.rounded,
+                        radius=self.radius,
+                        border=self.border,
+                        rotation=tile.get("rotation", 0),
+                    )
+                except (ImportError, OSError):
+                    # Fallback keeps generation working without native Cairo libs.
+                    create_tile(
+                        label=tile["label"],
+                        text=icon_fallback_text.get(tile["label"], "?"),
+                        fill_hex=tile["color"],
+                        out_dir=out_dir,
+                        tile_size=self.tile_size,
+                        rounded=self.rounded,
+                        radius=self.radius,
+                        font_path=self.font_path,
+                        border=self.border,
+                        shadow=self.shadow,
+                    )
             else:  # solid tile with text
                 create_tile(
                     label=tile["label"],

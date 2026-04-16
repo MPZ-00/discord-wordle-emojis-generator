@@ -31,6 +31,12 @@ class Game2048Generator(GameGenerator):
         }
         
         tiles = []
+        tiles.append({
+            "label": "tile_empty",
+            "color": "#31363E",
+            "text": "",
+        })
+
         for power in [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]:
             tiles.append({
                 "label": f"tile_{power}",
