@@ -47,7 +47,15 @@ def initialize_registry() -> None:
     from .wordle import WordleGenerator
     from .game_2048 import Game2048Generator
     from .ui_controls import UIControlsGenerator
+    from .game_connect4_themes import (
+        Connect4DarkGenerator,
+        Connect4LightGenerator,
+        Connect4XcadGenerator,
+    )
     
     GameRegistry.register("wordle", WordleGenerator)
     GameRegistry.register("2048", Game2048Generator)
     GameRegistry.register("ui_controls", UIControlsGenerator)
+    GameRegistry.register("connect4-dark", Connect4DarkGenerator)
+    GameRegistry.register("connect4-light", Connect4LightGenerator)
+    GameRegistry.register("connect4-xcad", Connect4XcadGenerator)

@@ -96,7 +96,12 @@ def main():
             print(f"Skipping unknown game: {game_name}")
             continue
         
-        game_output_dir = output_root / game_name
+        # Group connect4 themes into single folder
+        if game_name.startswith("connect4"):
+            game_output_dir = output_root / "connect4"
+        else:
+            game_output_dir = output_root / game_name
+        
         generator = game_class(
             tile_size=args.size,
             rounded=args.rounded,
