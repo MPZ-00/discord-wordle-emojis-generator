@@ -85,7 +85,23 @@ def create_tile(
         shadow: Whether to add text shadow
     """
     bg = hex_to_rgba(fill_hex)
-    text_color = (0, 0, 0, 255) if label.startswith("white_") else (255, 255, 255, 255)
+    
+    # Determine text color based on background brightness
+    # Convert hex to RGB and calculate luminance
+    hex_clean = fill_hex.lstrip('#')
+    r, g, b = int(hex_clean[0:2], 16), int(hex_clean[2:4], 16), int(hex_clean[4:6], 16)
+    # Standard luminance formula
+    luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+    
+    # Use dark text on light backgrounds (luminance > 0.5), white on dark
+    if label.startswith("white_"):
+        text_color = (0, 0, 0, 255)
+    elif luminance > 0.5:
+        # Light background - use dark text
+        text_color = (0, 0, 0, 255)
+    else:
+        # Dark background - use white text
+        text_color = (255, 255, 255, 255)
 
     img = Image.new("RGBA", (tile_size, tile_size), (0, 0, 0, 0))
     tile = Image.new("RGBA", (tile_size, tile_size), bg)

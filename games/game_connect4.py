@@ -7,7 +7,8 @@ from game import GameGenerator
 class Connect4ThemedGenerator(GameGenerator):
     """Generate Connect 4 emoji tiles using theme color palettes.
     
-    Supports multiple color themes. All tiles use suffixes based on theme name.
+    Supports multiple color themes. Pieces are rounded style.
+    Column headers use themed backgrounds.
     """
     
     def __init__(self, *args, theme_name: str, theme_colors: dict, **kwargs):
@@ -29,15 +30,11 @@ class Connect4ThemedGenerator(GameGenerator):
         return f"#{color_int:06X}"
     
     def get_tiles(self) -> List[Dict[str, str]]:
-        """Generate tiles for Connect 4 with theme suffix.
+        """Generate rounded tiles for Connect 4 with theme suffix.
         
         Includes:
-        - Empty cell for board spaces
-        - Player 1 chip
-        - Player 2 chip
-        - Column headers (1-7)
-        
-        All labels include theme suffix (e.g., empty_dark, player1_light)
+        - Empty, player1, player2 (rounded style per theme)
+        - Column headers (themed background, no shadow)
         
         Returns:
             List of tile specifications
@@ -45,32 +42,25 @@ class Connect4ThemedGenerator(GameGenerator):
         tiles = []
         suffix = f"_{self.theme_name}"
         
-        # Board tiles: empty, player1 chip, player2 chip
-        tiles.append({
-            "label": f"empty{suffix}",
-            "color": self._int_to_hex(self.theme_colors["background"]),
-            "text": " ",
-        })
+        # Game pieces (filled, rounded appearance)
+        for piece in ["empty", "player1", "player2"]:
+            tiles.append({
+                "label": f"{piece}{suffix}",
+                "color": self._int_to_hex(self.theme_colors["background" if piece == "empty" else piece]),
+                "text": " ",
+                "style": "round",
+            })
         
-        tiles.append({
-            "label": f"player1{suffix}",
-            "color": self._int_to_hex(self.theme_colors["player1"]),
-            "text": " ",
-        })
-        
-        tiles.append({
-            "label": f"player2{suffix}",
-            "color": self._int_to_hex(self.theme_colors["player2"]),
-            "text": " ",
-        })
-        
-        # Column headers (1-7)
+        # Column headers with themed background
         for col in range(1, 8):
             tiles.append({
                 "label": f"col{col}{suffix}",
-                "color": self._int_to_hex(self.theme_colors["foreground"]),
+                "color": self._int_to_hex(self.theme_colors["background"]),
                 "text": str(col),
+                "style": "header",
             })
         
         return tiles
+
+
 

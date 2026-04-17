@@ -56,18 +56,40 @@ class GameGenerator(ABC):
         out_dir.mkdir(parents=True, exist_ok=True)
         
         tiles = self.get_tiles()
+        
+        # Generate all tiles
         for tile in tiles:
+            # Determine rendering options based on style attribute
+            label = tile['label']
+            style = tile.get('style', 'default')
+            
+            if style == 'round':
+                # Rounded pieces: filled, rounded corners, shadow on text
+                use_rounded = True
+                use_border = False
+                use_shadow = True
+            elif style == 'header':
+                # Headers: rounded, no shadow, no border
+                use_rounded = True
+                use_border = False
+                use_shadow = False
+            else:
+                # Default behavior
+                use_rounded = self.rounded
+                use_border = self.border
+                use_shadow = self.shadow
+            
             create_tile(
-                label=tile['label'],
+                label=label,
                 text=tile.get('text', ''),
                 fill_hex=tile['color'],
                 out_dir=out_dir,
                 tile_size=self.tile_size,
-                rounded=self.rounded,
+                rounded=use_rounded,
                 radius=self.radius,
                 font_path=self.font_path,
-                border=self.border,
-                shadow=self.shadow,
+                border=use_border,
+                shadow=use_shadow,
             )
         
         print(f"Generated {len(tiles)} tiles for {self.__class__.__name__} in: {out_dir.resolve()}")
